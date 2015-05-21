@@ -4,8 +4,8 @@
 Plugin Name: DVS API
 Plugin URI: http://wordpress.org/plugins/dvs-api/
 Description: This plugin for provide json api
-Version: 1.2.0
-Stable tag: 1.2.0
+Version: 1.2.1
+Stable tag: 1.2.1
 Author: Vladimir Drizheruk
 Author URI: mailto:vladimir@drizheurk.com.ua
 */
@@ -88,7 +88,7 @@ class DvsAPI
      */
     protected function getPost($gType = 'post', $gTerm = '')
     {
-        $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish', 'number' => 99999,]);
+        $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish', 'numberposts' => -1]);
 
         if (!empty($gTerm)) {
             if (!empty($posts)) {
