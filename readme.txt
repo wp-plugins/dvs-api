@@ -3,8 +3,8 @@ Contributors: Vladimir Drizheruk <vladimir@drizheruk.com.ua>
 Donate link:
 Tags: api, wordpress
 Requires at least: 3.0
-Tested up to: 1.1.0
-Stable tag: 1.1.0
+Tested up to: 1.1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,9 @@ If you would prefer to do things manually then follow these instructions:
 4. Click "Save Changes"
 
 == Changelog ==
+
+= 1.1.1 =
+* optimization
 
 = 1.1.0 =
 * json api for different post types with taxonomy

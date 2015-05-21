@@ -4,8 +4,8 @@
 Plugin Name: DVS API
 Plugin URI: http://wordpress.org/plugins/dvs-api/
 Description: This plugin for provide json api
-Version: 1.1.0
-Stable tag: 1.1.0
+Version: 1.1.1
+Stable tag: 1.1.1
 Author: Vladimir Drizheruk
 Author URI: mailto:vladimir@drizheurk.com.ua
 */
@@ -40,7 +40,6 @@ class DvsAPI
     {
         add_rewrite_rule('^api/(post)/(\w+)/tax/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]&gTax=$matches[3]', 'top');
         add_rewrite_rule('^api/(post|term)/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]', 'top');
-        flush_rewrite_rules();
     }
 
     /**   Sniff Requests
