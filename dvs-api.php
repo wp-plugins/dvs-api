@@ -4,8 +4,8 @@
 Plugin Name: DVS API
 Plugin URI: http://wordpress.org/plugins/dvs-api/
 Description: This plugin for provide json api
-Version: 1.0.0
-Stable tag: 1.0.0
+Version: 1.1.0
+Stable tag: 1.1.0
 Author: Vladimir Drizheruk
 Author URI: mailto:vladimir@drizheurk.com.ua
 */
@@ -28,6 +28,7 @@ class DvsAPI
         $vars[] = '__api';
         $vars[] = 'g';
         $vars[] = 'gType';
+        $vars[] = 'gTax';
         return $vars;
     }
 
@@ -37,10 +38,12 @@ class DvsAPI
      */
     public function add_endpoint()
     {
+        add_rewrite_rule('^api/(post)/(\w+)/tax/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]&gTax=$matches[3]', 'top');
         add_rewrite_rule('^api/(post|term)/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]', 'top');
+        flush_rewrite_rules();
     }
 
-    /**    Sniff Requests
+    /**   Sniff Requests
      *    This is where we hijack all API requests
      *    If $_GET['__api'] is set, we kill WP and serve up pug bomb awesomeness
      * @return die if API request
@@ -63,12 +66,13 @@ class DvsAPI
         global $wp;
         $g = $wp->query_vars['g'];
         $gType = $wp->query_vars['gType'];
+        $gTax = $wp->query_vars['gTax'] ? $wp->query_vars['gTax'] : '';
 
         switch ($g) {
             default:
                 break;
             case 'post':
-                $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish']);
+                $posts = $this->getPost($gType, $gTax);
                 $this->send_response('200 OK', $posts);
                 break;
             case 'term':
@@ -76,6 +80,28 @@ class DvsAPI
                 $this->send_response('200 OK', $terms);
                 break;
         }
+    }
+
+    /**
+     * @param string $gType
+     * @param string $gTax
+     * @return array
+     */
+    protected function getPost($gType = 'post', $gTax = '')
+    {
+        $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish']);
+
+        if (!empty($gTax)) {
+            if (!empty($posts)) {
+                foreach ($posts as $post) {
+                    $terms = wp_get_post_terms($post->ID, $gTax, []);
+                    $tax = 'term_' . $gTax;
+                    $post->{$tax} = $terms;
+                }
+            }
+        }
+
+        return $posts;
     }
 
     /**

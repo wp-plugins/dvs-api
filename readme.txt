@@ -3,18 +3,19 @@ Contributors: Vladimir Drizheruk <vladimir@drizheruk.com.ua>
 Donate link:
 Tags: api, wordpress
 Requires at least: 3.0
-Tested up to: 1.0.0
-Stable tag: 1.0.0
+Tested up to: 1.1.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Provides json api for different post types and custonomies.
+Provides json api for different post types and taxonomies.
 
 == Description ==
 
 Provides json api for:
 
-* Posts, pages and other custom post types  [/api/post/[post_type].json]
+* Posts [/api/post/[post_type].json]
+* Posts with term [/api/post/[post_type]/tax/[tax_type].json
 * Terms from different taxonomies including custom  [/api/term/[taxonomy].json]
 
 For further information and instructions please contact me at vladimir[at]drizheruk.com.ua
@@ -37,6 +38,9 @@ If you would prefer to do things manually then follow these instructions:
 4. Click "Save Changes"
 
 == Changelog ==
+
+= 1.1.0 =
+* json api for different post types with taxonomy
 
 = 1.0.0 =
 * json api for different post types including custom
