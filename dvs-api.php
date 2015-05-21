@@ -4,8 +4,8 @@
 Plugin Name: DVS API
 Plugin URI: http://wordpress.org/plugins/dvs-api/
 Description: This plugin for provide json api
-Version: 1.1.1
-Stable tag: 1.1.1
+Version: 1.2.0
+Stable tag: 1.2.0
 Author: Vladimir Drizheruk
 Author URI: mailto:vladimir@drizheurk.com.ua
 */
@@ -28,7 +28,7 @@ class DvsAPI
         $vars[] = '__api';
         $vars[] = 'g';
         $vars[] = 'gType';
-        $vars[] = 'gTax';
+        $vars[] = 'gTerm';
         return $vars;
     }
 
@@ -38,7 +38,7 @@ class DvsAPI
      */
     public function add_endpoint()
     {
-        add_rewrite_rule('^api/(post)/(\w+)/tax/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]&gTax=$matches[3]', 'top');
+        add_rewrite_rule('^api/(post)/(\w+)/term/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]&gTerm=$matches[3]', 'top');
         add_rewrite_rule('^api/(post|term)/(\w+)\.json/?', 'index.php?__api=1&g=$matches[1]&gType=$matches[2]', 'top');
     }
 
@@ -65,7 +65,7 @@ class DvsAPI
         global $wp;
         $g = $wp->query_vars['g'];
         $gType = $wp->query_vars['gType'];
-        $gTax = $wp->query_vars['gTax'] ? $wp->query_vars['gTax'] : '';
+        $gTax = $wp->query_vars['gTerm'] ? $wp->query_vars['gTerm'] : '';
 
         switch ($g) {
             default:
@@ -83,19 +83,19 @@ class DvsAPI
 
     /**
      * @param string $gType
-     * @param string $gTax
+     * @param string $gTerm
      * @return array
      */
-    protected function getPost($gType = 'post', $gTax = '')
+    protected function getPost($gType = 'post', $gTerm = '')
     {
-        $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish']);
+        $posts = get_posts(['post_type' => $gType, 'post_status' => 'publish', 'number' => 99999,]);
 
-        if (!empty($gTax)) {
+        if (!empty($gTerm)) {
             if (!empty($posts)) {
                 foreach ($posts as $post) {
-                    $terms = wp_get_post_terms($post->ID, $gTax, []);
-                    $tax = 'term_' . $gTax;
-                    $post->{$tax} = $terms;
+                    $terms = wp_get_post_terms($post->ID, $gTerm, []);
+                    $term = 'term_' . $gTerm;
+                    $post->{$term} = $terms;
                 }
             }
         }
