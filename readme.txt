@@ -39,6 +39,9 @@ If you would prefer to do things manually then follow these instructions:
 
 == Changelog ==
 
+= 1.2.1 =
+* removed limit for posts - retrieve all posts
+
 = 1.2.0 =
 * limit 99999 posts
 * url  changed : Posts with term [/api/post/[post_type]/term/[term_type].json
